@@ -1,0 +1,27 @@
+# Netlify Deploy Configuration
+[build]
+  command = "npm install && npm run build"
+  functions = "netlify/functions"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+
+[functions]
+  node_bundler = "esbuild"
+  included_files = ["prisma/**"]
+
+[[plugins]]
+  package = "@netlify/plugin-lighthouse"
+
+[dev]
+  command = "npm run start:dev"
+  port = 3000
+  targetPort = 3000
+  publish = "dist"
+  autoLaunch = false
